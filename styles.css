@@ -140,6 +140,7 @@ header .navbar {
 .hero-section {
     min-height: 100vh;
     background: var(--color-primary);
+    
 }
 
 .hero-section .section-content {
@@ -158,18 +159,25 @@ header .navbar {
     font-size:  1.9rem;
     color: #2C2C2C;
     font-family: "Miniver", sans-serif;
+    margin-top: 150px;
+    padding-bottom: -300px;
+ 
 }
 
+
+
 .hero-section .hero-details .subtitle {
-    margin-top: 8px;
+    margin-top: 10px;
+    margin-bottom: 120px;
     max-width: 70%;
     font-size: 1.5rem;
     font-weight: var(--font-weight-semibold);
-
+    padding:  0px;
+   
 }
 
 .hero-section .hero-details .description {
-    margin-top: 8px;
+    margin-top: -100px;
     max-width: 70%;
     font-size: var(--font-size-m);
 }
@@ -210,8 +218,10 @@ header .navbar {
     display: flex;
     justify-content: center;
     align-items: center;
-    max-width: 300px;
+    max-width: 220px;
     margin-left: 800px;
+    margin-right: 0;
+    margin-top: -400px;
 }
 
 
@@ -224,6 +234,7 @@ header .navbar {
 
 .about-section .section-content {
     display: flex;
+    gap: 50px;
     align-items: center;
     justify-content: space-between;
 }
@@ -618,7 +629,7 @@ header .navbar {
         justify-content: center;
     }
 
-    .hero-section .hero-details :is(.subtitle, .description), .about-section .about-details .contact-section .section-form {
+    .hero-section .hero-details :is(.subtitle, .description), .about-section .about-details .contact-section .contact-form {
         max-width: 100%;
     }
 
@@ -629,13 +640,30 @@ header .navbar {
 
     .hero-section   .hero-image-wrapper{
         max-width: 270px;
-        margin-right: 0;
+        margin-right: 500px;
+        margin-top: 140px;
+        padding-top: -200px;
+        margin-bottom: 0px;
+        
+
     }
 
     .about-section .section-content {
         gap: 70px;
         flex-direction: column-reverse;
+    
     }
+    
+    .about-section .about-details {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin-top: -90px;
+    }
+
+    .about-section .about-details .text {
+        text-align: center;
+    }
+
 
     .about-section .about-image-wrapper .about-image {
         width: 100%;
