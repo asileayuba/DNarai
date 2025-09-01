@@ -1,0 +1,89 @@
+{% load static %}
+
+<style>
+  .avatar-circle {
+    background: #4a90e2;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logout-link {
+  background: inherit;  
+  color: #fff;              
+  border: none;
+  border-radius: 5px;     
+  padding: 6px 14px;
+  cursor: pointer;
+  font: inherit;
+  transition: background 0.3s ease;
+}
+
+.logout-link:hover {
+  background: #c0392b;      
+}
+
+</style>
+
+<!-- Header -->
+<header id="header" class="alt">
+  <h1>
+    <a href="{% url 'core:index' %}">
+      <img
+        src="{% static 'images/D_Narai_Logo_1.png' %}"
+        alt="D.Narai Logo"
+        style="vertical-align: middle; width: 20px; height: auto"
+      />
+      &nbsp; DNarai
+    </a>
+  </h1>
+  <nav id="nav">
+    <ul>
+      <li class="special">
+        <a href="#menu" class="menuToggle"><span>Explore</span></a>
+        <div id="menu">
+          <button class="close" aria-label="Close Menu"></button>
+          <ul>
+            <li><a href="{% url 'core:index' %}">Home</a></li>
+            <li><a href="{% url 'core:booking' %}">Book A Session</a></li>
+
+            {% if user.is_authenticated %}
+            <!-- Logged in state -->
+            <li style="display: flex; align-items: center; gap: 8px">
+              <span class="avatar-circle">
+                {{ user.username|first|upper }}
+              </span>
+              <span>{{ user.username }}</span>
+            </li>
+            <li>
+              <form
+                method="POST"
+                action="{% url 'accounts:logout' %}"
+                onsubmit="return confirmLogout();"
+              >
+                {% csrf_token %}
+                <button type="submit" class="logout-link">Logout</button>
+              </form>
+            </li>
+            {% else %}
+            <!-- Logged out state -->
+            <li><a href="{% url 'accounts:login' %}">Log In</a></li>
+            <li><a href="{% url 'accounts:signup' %}">Sign Up</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  function confirmLogout() {
+    return confirm("Are you sure you want to logout?");
+  }
+</script>

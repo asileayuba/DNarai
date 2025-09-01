@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Thank You for Contacting Me</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    h2 {
+      color: #0072ef;
+    }
+    p {
+      line-height: 1.6;
+    }
+    .signature {
+      margin-top: 30px;
+      font-style: italic;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Mentorship Session Follow-Up</h2>
+    <p>Hi Mentor,</p>
+    <p>Did your session with <strong>{{ booking.full_name }}</strong> on <strong>{{ booking.preferred_datetime }}</strong> take place?</p>
+
+    <p>
+    <a href="{{ held_link }}" style="padding: 10px 15px; background: green; color: white; text-decoration: none; border-radius: 5px;">✅ Yes, it was held</a>
+    </p>
+    <p>
+    <a href="{{ not_held_link }}" style="padding: 10px 15px; background: red; color: white; text-decoration: none; border-radius: 5px;">❌ No, it was not held</a>
+    </p>
+
+  </div>
+</body>
+</html>

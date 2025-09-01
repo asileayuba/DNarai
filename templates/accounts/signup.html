@@ -1,0 +1,276 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>DNarai | SignUp Page</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS  -->
+    <link rel="stylesheet" href="{% static 'assets/css/signup.css' %}" />
+
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    <section
+      class="d-flex justify-content-center align-items-center"
+      style="height: 100vh"
+    >
+      <form
+        class="form_container"
+        method="POST"
+        action="{% url 'accounts:signup' %}"
+      >
+        {% csrf_token %}
+
+        {% if error %}
+        <div
+          class="alert alert-danger alert-dismissible fade show w-100"
+          role="alert"
+          id="errorMessage"
+        >
+          <strong>Error:</strong> {{ error }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {% endif %}
+
+        <div class="title_container">
+          <p class="title">Create an Account</p>
+          <span class="subtitle"
+            >Begin a journey toward excellence with us.</span
+          >
+        </div>
+
+        <!-- First Name -->
+        <div class="input_container">
+          <label class="input_label" for="first_name_field">First Name</label>
+          <input
+            placeholder="John"
+            name="first_name"
+            type="text"
+            class="input_field"
+            id="first_name_field"
+            value="{{ first_name|default:'' }}"
+            required
+          />
+        </div>
+
+        <!-- Last Name -->
+        <div class="input_container">
+          <label class="input_label" for="last_name_field">Last Name</label>
+          <input
+            placeholder="Doe"
+            name="last_name"
+            type="text"
+            class="input_field"
+            id="last_name_field"
+            value="{{ last_name|default:'' }}"
+            required
+          />
+        </div>
+
+        <!-- Username -->
+        <div class="input_container">
+          <label class="input_label" for="username_field">Username</label>
+          <input
+            placeholder="john.doe"
+            name="username"
+            type="text"
+            class="input_field"
+            id="username_field"
+            value="{{ suggested_username|default:'' }}"
+            required
+          />
+          <p id="username_feedback" style="margin-top: 4px"></p>
+        </div>
+
+        <!-- Email -->
+        <div class="input_container">
+          <label class="input_label" for="email_field">Email</label>
+          <input
+            placeholder="name@mail.com"
+            name="email"
+            type="email"
+            class="input_field"
+            id="email_field"
+            value="{{ email|default:'' }}"
+            required
+          />
+        </div>
+
+        <!-- Password -->
+        <div class="input_container" style="position: relative">
+          <label class="input_label" for="password_field">Password</label>
+          <input
+            placeholder="Password"
+            name="password"
+            type="password"
+            class="input_field password_input"
+            id="password_field"
+            required
+          />
+          <span class="toggle_password">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          </span>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="input_container" style="position: relative">
+          <label class="input_label" for="confirm_password_field"
+            >Confirm Password</label
+          >
+          <input
+            placeholder="Confirm Password"
+            name="confirm_password"
+            type="password"
+            class="input_field password_input"
+            id="confirm_password_field"
+            required
+          />
+          <span class="toggle_password">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          </span>
+        </div>
+
+        <button title="Sign Up" type="submit" class="sign-in_btn">
+          <span>Sign Up</span>
+        </button>
+
+        <div class="links">
+          <p>
+            Already have an account?
+            <a href="{% url 'accounts:login' %}" style="color: white">Login</a>
+          </p>
+          <a href="{% url 'accounts:password_reset' %}" style="color: white"
+            >Forgot Password?</a
+          >
+        </div>
+
+        <div class="bottom_line">
+          <span id="slogan"></span>
+        </div>
+      </form>
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ----------------- JavaScript ----------------- -->
+    <script>
+      /* ---------- Error Auto-hide ---------- */
+      document.addEventListener("DOMContentLoaded", function () {
+        const errorElement = document.getElementById("errorMessage");
+        if (errorElement) {
+          setTimeout(() => {
+            let alert = bootstrap.Alert.getOrCreateInstance(errorElement);
+            alert.close();
+          }, 10000);
+        }
+      });
+
+      /* ---------- Username Live Check ---------- */
+      const usernameField = document.getElementById("username_field");
+      const feedback = document.getElementById("username_feedback");
+      let debounceTimeout;
+
+      usernameField.addEventListener("input", function () {
+        const username = usernameField.value.trim();
+        clearTimeout(debounceTimeout);
+
+        debounceTimeout = setTimeout(() => {
+          if (!username) {
+            feedback.textContent = "";
+            return;
+          }
+
+          fetch(
+            "{% url 'accounts:check_username' %}?username=" +
+              encodeURIComponent(username)
+          )
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.available) {
+                feedback.textContent = "Username is available";
+                feedback.style.color = "green";
+              } else {
+                feedback.textContent = "Username is taken";
+                feedback.style.color = "red";
+              }
+            })
+            .catch((err) => {
+              feedback.textContent = "Error checking username";
+              feedback.style.color = "orange";
+            });
+        }, 400);
+      });
+
+      /* ---------- Password Show/Hide ---------- */
+      document.querySelectorAll(".toggle_password").forEach((toggle) => {
+        toggle.addEventListener("click", function () {
+          const input = this.previousElementSibling;
+          const icon = this.querySelector("svg");
+
+          if (input.type === "password") {
+            input.type = "text";
+            icon.innerHTML =
+              '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a20.06 20.06 0 0 1 5.35-6.47"/><path d="M1 1l22 22"/>';
+          } else {
+            input.type = "password";
+            icon.innerHTML =
+              '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+          }
+        });
+      });
+
+      /* ---------- Slogan Rotation ---------- */
+      const slogans = ["Leadership", "Vision", "Impact", "Influence"];
+      let index = 0;
+      const sloganElement = document.getElementById("slogan");
+
+      function changeSlogan() {
+        sloganElement.textContent = slogans[index];
+        sloganElement.classList.add("fade");
+        setTimeout(() => {
+          sloganElement.classList.remove("fade");
+          index = (index + 1) % slogans.length;
+        }, 2000);
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        changeSlogan();
+        setInterval(changeSlogan, 3000);
+      });
+    </script>
+  </body>
+</html>

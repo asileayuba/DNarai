@@ -1,0 +1,6 @@
+<h2>Account Verified!</h2>
+{% if auto_login %}
+    <p>You are now signed in automatically. <a href="{% url 'core:index' %}">Go to your dashboard</a>.</p>
+{% else %}
+    <p>Your account has been successfully activated. You can now <a href="{% url 'login' %}">log in</a>.</p>
+{% endif %}

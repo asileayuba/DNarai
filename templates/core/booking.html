@@ -1,0 +1,116 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<div class="container mt-5 mb-5">
+  <h2 class="mb-4 text-center">Book a Leadership Session</h2>
+
+  <form method="POST" class="border p-4 rounded shadow-sm bg-light">
+    {% csrf_token %}
+
+    <div class="mb-3 text-black">
+      <label
+        for="{{ form.full_name.id_for_label }}"
+        class="form-label text-black"
+        >Full Name</label
+      >
+      {{ form.full_name }} {{ form.full_name.errors }}
+    </div>
+
+    <div class="mb-3">
+      <label for="{{ form.email.id_for_label }}" class="form-label text-black"
+        >Email Address</label
+      >
+      {{ form.email }} {{ form.email.errors }}
+    </div>
+
+    <div class="mb-3">
+      <label
+        for="{{ form.phone_number.id_for_label }}"
+        class="form-label text-black"
+        >Phone Number</label
+      >
+      {{ form.phone_number }} {{ form.phone_number.errors }}
+    </div>
+
+    <div class="mb-3">
+      <label for="{{ form.company.id_for_label }}" class="form-label text-black"
+        >Company / Organization</label
+      >
+      {{ form.company }} {{ form.company.errors }}
+    </div>
+
+    <div class="mb-3">
+      <label
+        for="{{ form.preferred_datetime.id_for_label }}"
+        class="form-label text-black"
+        >Preferred Date & Time</label
+      >
+      {{ form.preferred_datetime }} {{ form.preferred_datetime.errors }}
+    </div>
+
+    <div class="mb-3">
+      <label
+        for="{{ form.timezone.id_for_label }}"
+        class="form-label text-black"
+      >
+        Timezone
+      </label>
+      {{ form.timezone }} {% if form.timezone.errors %}
+      <div class="text-danger small">{{ form.timezone.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div class="mb-3">
+      <label
+        for="{{ form.session_type.id_for_label }}"
+        class="form-label text-black"
+        >Session Type</label
+      >
+      {{ form.session_type }} {{ form.session_type.errors }}
+    </div>
+
+    <div class="mb-3">
+      <label
+        for="{{ form.session_duration.id_for_label }}"
+        class="form-label text-black"
+        >Session Duration</label
+      >
+      {{ form.session_duration }} {{ form.session_duration.errors }}
+    </div>
+
+    <div class="mb-3">
+      <label
+        for="{{ form.session_format.id_for_label }}"
+        class="form-label text-black"
+        >Session Format</label
+      >
+      {{ form.session_format }} {{ form.session_format.errors }}
+    </div>
+
+    <div class="mb-3">
+      <label for="{{ form.goals.id_for_label }}" class="form-label text-black"
+        >Focus / Goals</label
+      >
+      {{ form.goals }} {{ form.goals.errors }}
+    </div>
+
+    <div class="mb-3">
+      <label
+        for="{{ form.referral_source.id_for_label }}"
+        class="form-label text-black"
+        >Referral Source</label
+      >
+      {{ form.referral_source }} {{ form.referral_source.errors }}
+    </div>
+
+    <div class="mb-3">
+      <label
+        for="{{ form.linkedin_or_website.id_for_label }}"
+        class="form-label text-black"
+        >LinkedIn or Website</label
+      >
+      {{ form.linkedin_or_website }} {{ form.linkedin_or_website.errors }}
+    </div>
+
+    <button type="submit" class="btn custom-btn">Submit Booking</button>
+  </form>
+</div>
+{% endblock content %}

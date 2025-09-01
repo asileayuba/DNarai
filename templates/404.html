@@ -1,0 +1,77 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Page not found — 404</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <!-- Tell search engines not to index this page -->
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    :root { --max: 720px; }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; 
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      display: grid; 
+      place-items: center;
+      background: #171C21;
+      color: white; /* ensures text is visible on dark background */
+    }
+    .wrap { width: min(92vw, var(--max)); text-align: center; }
+    .badge {
+      display:inline-grid; place-items:center; width: 110px; aspect-ratio:1;
+      border-radius: 24px;
+      background: #fff; 
+      box-shadow: 0 10px 30px rgba(0,0,0,.08), inset 0 0 0 1px rgba(0,0,0,.06);
+      margin: 0 auto 1.25rem;
+      position: relative; 
+      overflow: hidden;
+    }
+    .badge::before, .badge::after {
+      content:""; position:absolute; inset:-40% -40%;
+      background: conic-gradient(from 0deg, #7aa2ff, #ff7aa2, #ffd27a, #7aa2ff);
+      animation: spin 7s linear infinite;
+      filter: blur(8px); opacity:.45;
+    }
+    .badge::after { animation-direction: reverse; opacity:.30; }
+    @keyframes spin { to { transform: rotate(1turn); } }
+    h1 { font-size: clamp(2.2rem, 5vw, 3rem); margin: .25rem 0 .5rem; letter-spacing: -.02em; }
+    p.lead { font-size: clamp(1rem, 2.7vw, 1.125rem); margin: 0 0 1.25rem; color: #ccc; }
+    .actions { display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap; }
+    .btn {
+      padding:.7rem 1rem; border-radius: .75rem; border:1px solid rgba(255,255,255,.2); text-decoration:none;
+      background:#fff; color:#111; box-shadow: 0 6px 16px rgba(0,0,0,.06);
+      transition: transform .08s ease, box-shadow .08s ease;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(0,0,0,.09); }
+    .btn.primary { background: #17A2B9; color:#fff; }
+    form { margin-top: .75rem; }
+    input[type="text"] {
+      width: min(520px, 90vw); padding:.8rem 1rem; border-radius:.75rem; border:1px solid rgba(255,255,255,.3);
+      outline: none;
+      background: rgba(255,255,255,0.1); 
+      color: white;
+    }
+    .tiny { margin-top: 1rem; font-size: .85rem; opacity: .7; }
+</style>
+
+</head>
+<body>
+  <main class="wrap" role="main" aria-labelledby="title">
+    <div class="badge" aria-hidden="true"></div>
+    <h1 id="title">We can’t find that page (404)</h1>
+    <p class="lead">
+      The link might be broken or the page may have moved.
+    </p>
+
+    <div class="actions">
+      <a class="btn primary" href="/">Go to homepage</a>
+      <a class="btn" href="javascript:history.back()">Go back</a>
+    </div>
+
+    <p class="tiny">Error code: 404 • If you typed the address, check the spelling.</p>
+  </main>
+</body>
+</html>

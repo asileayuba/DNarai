@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Thank You for Contacting Me</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    h2 {
+      color: #0072ef;
+    }
+    p {
+      line-height: 1.6;
+    }
+    .signature {
+      margin-top: 30px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>New Session Booking Request</h2>
+    <p>A mentee ({{ booking.full_name }}) has requested a mentorship session on:</p>
+    <p><strong>{{ booking.preferred_datetime }} ({{ booking.timezone }})</strong></p>
+    <p>Click below to confirm:</p>
+    <p><a href="{{ mentor_link }}" style="padding:10px 20px; background:#007bff; color:#fff; text-decoration:none;">Confirm Session</a></p>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,122 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link href="{% static 'assets/css/login.css' %}" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="wrapper">
+      {% if error %}
+      <div class="error">{{ error }}</div>
+      {% endif %}
+      <form method="POST" class="form_container">
+        {% csrf_token %}
+
+        <div class="logo_container"></div>
+        <div class="title_container">
+          <p class="title">Welcome Back</p>
+          <span class="subtitle">Log in to continue your journey.</span>
+        </div>
+
+        <div class="input_container">
+          <label class="input_label" for="email_field">Email or Username</label>
+          <input
+            placeholder="name@mail.com"
+            name="email"
+            type="text"
+            class="input_field"
+            id="email_field"
+          />
+        </div>
+
+        <div class="input_container">
+          <label class="input_label" for="password_field">Password</label>
+          <input
+            placeholder="Password"
+            name="password"
+            type="password"
+            class="input_field password_input"
+            id="password_field"
+          />
+          <span class="toggle_password">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          </span>
+        </div>
+
+        <button title="Login" type="submit" class="sign-in_btn">
+          <span>Login</span>
+        </button>
+
+        <div style="text-align: center;">
+          <p>Don't have an account? <a href="{% url 'accounts:signup' %}" style="color: white;">Signup</a></p>
+        </div>
+
+        <div class="bottom_line">
+          <span id="slogan"></span>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      // Wait for the DOM to load
+      document.addEventListener("DOMContentLoaded", function () {
+        const errorElement = document.querySelector(".error");
+        if (errorElement) {
+          setTimeout(() => {
+            errorElement.style.display = "none"; // hides it
+            // Or use: errorElement.remove(); // completely removes it from DOM
+          }, 10000); // 10000ms = 10s
+        }
+      });
+
+      /* ---------- Password Show/Hide ---------- */
+      document.querySelectorAll(".toggle_password").forEach((toggle) => {
+        toggle.addEventListener("click", function () {
+          const input = this.previousElementSibling;
+          const icon = this.querySelector("svg");
+
+          if (input.type === "password") {
+            input.type = "text";
+            icon.innerHTML =
+              '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a20.06 20.06 0 0 1 5.35-6.47"/><path d="M1 1l22 22"/>';
+          } else {
+            input.type = "password";
+            icon.innerHTML =
+              '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+          }
+        });
+      });
+
+
+      const slogans = ["Leadership", "Vision", "Impact", "Influence"];
+      let index = 0;
+      const sloganElement = document.getElementById("slogan");
+
+      function changeSlogan() {
+        sloganElement.textContent = slogans[index];
+        sloganElement.classList.add("fade");
+        setTimeout(() => {
+          sloganElement.classList.remove("fade");
+          index = (index + 1) % slogans.length;
+        }, 2000);
+      }
+      setInterval(changeSlogan, 3000);
+      changeSlogan();
+    </script>
+  </body>
+</html>

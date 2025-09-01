@@ -1,0 +1,5 @@
+redis: redis-server
+web: python manage.py runserver 0.0.0.0:8000
+worker: celery -A DNarai worker -l info
+beat: celery -A DNarai beat -l info
+flower: celery -A DNarai flower --port=5555

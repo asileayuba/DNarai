@@ -1,0 +1,272 @@
+{% extends "base.html" %} 
+
+{% load static %} 
+
+{% block title %}D.Narai Enterprise{% endblock %} 
+{% block body_class %}landing is-preload{% endblock %}
+{% block content %}
+<div id="page-wrapper">
+  <!-- Banner -->
+  <section id="banner">
+    <div class="inner">
+      <h2>DNarai</h2>
+      <p>Where leadership meets possibility.</p>
+      <ul class="actions special">
+        <li>
+          <a href="{% url 'core:booking' %}" class="button primary"
+            >Book a Session</a
+          >
+        </li>
+      </ul>
+    </div>
+    <a href="#one" class="more scrolly">Learn More</a>
+  </section>
+
+  <!-- Gallery Section -->
+  <section id="one" class="wrapper style1 special">
+    <h2 class="text-white fw-bold display-5">What We Do</h2>
+    <div class="container text-white">
+      <p class="text-justify-custom">
+        D Narai Enterprise is a premier leadership organization dedicated to
+        empowering individuals and organizations to achieve excellence...
+      </p>
+    </div>
+
+    <h2>Gallery</h2>
+    <div class="slider" style="--width: 400px; --height: 400px; --quantity: 9">
+      <div class="list">
+        {% for i in "123456789" %}
+        <div class="item" style="--position: {{ forloop.counter }}">
+          <img
+            src="{% static 'images/gallery-6.jpg' %}"
+            alt="Slide {{ forloop.counter }}"
+          />
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="two" class="wrapper alt style2">
+    <section class="spotlight">
+      <div class="image">
+        <img src="{% static 'bg-images/banner.png' %}" alt="" />
+      </div>
+      <div class="content">
+        <img
+          src="{% static 'assets/css/images/img_avatar.png' %}"
+          alt="Avatar"
+          class="avatar"
+        />
+        <h2>Sarah Adewale – HR Manager<br />Crest Solutions Ltd.</h2>
+        <p class="text-justify-custom">
+          D. Narai Leadership helped me discover my strengths as a leader...
+        </p>
+      </div>
+    </section>
+
+    <section class="spotlight">
+      <div class="image">
+        <img src="{% static 'images/pic02.jpg' %}" alt="" />
+      </div>
+      <div class="content">
+        <img
+          src="{% static 'assets/css/images/img_avatar.png' %}"
+          alt="Avatar"
+          class="avatar"
+        />
+        <h2>⁠Michael Okon – Team Lead<br />Innovate Tech Africa</h2>
+        <p class="text-justify-custom">
+          Thanks to D. Narai, I now lead with confidence and clarity...
+        </p>
+      </div>
+    </section>
+
+    <section class="spotlight">
+      <div class="image">
+        <img src="{% static 'images/pic03.jpg' %}" alt="" />
+      </div>
+      <div class="content">
+        <img
+          src="{% static 'assets/css/images/img_avatar.png' %}"
+          alt="Avatar"
+          class="avatar"
+        />
+        <h2>⁠Blessing Nwachukwu – Founder<br />Rise Women Network</h2>
+        <p class="text-justify-custom">
+          The sessions were eye-opening. D. Narai Leadership equipped me...
+        </p>
+      </div>
+    </section>
+  </section>
+
+  <!-- Services -->
+  <section id="three" class="wrapper style3 special">
+    <div class="inner">
+      <header class="major">
+        <h2 class="text-white fw-bold display-5">Services We Offer</h2>
+        <p>Unlock powerful solutions tailored to your needs...</p>
+      </header>
+      <ul class="features">
+        <li class="icon fa-paper-plane">
+          <h3>⁠Leadership & Capacity Building</h3>
+          <p class="text-justify-custom">
+            Our leadership training builds skills to inspire and drive
+            success...
+          </p>
+        </li>
+        <li class="icon solid fa-laptop">
+          <h3>⁠Rest is Magical</h3>
+          <p class="text-justify-custom">
+            Learn how rest fuels productivity and creativity...
+          </p>
+        </li>
+        <li class="icon fa-paper-plane">
+          <h3>Human Resource Management</h3>
+          <p class="text-justify-custom">
+            Practical HR solutions for long-term organizational growth...
+          </p>
+        </li>
+        <li class="icon solid fa-flag">
+          <h3>Power of Focus</h3>
+          <p class="text-justify-custom">
+            Master the art of concentrated work for maximum results...
+          </p>
+        </li>
+        <li class="icon fa-heart">
+          <h3>Leadership Training</h3>
+          <p class="text-justify-custom">
+            In-depth leadership programs designed for modern challenges...
+          </p>
+        </li>
+        <li class="icon solid fa-laptop">
+          <h3>Mentorship Session</h3>
+          <p class="text-justify-custom">
+            One-on-one mentorship with industry experts...
+          </p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="cta" class="wrapper style4">
+    <section class="py-5">
+      <div class="container">
+        <div class="text-center mb-5">
+          <h2 class="text-white fw-bold display-5">Contact Us</h2>
+          <p class="text-white">
+            Have questions, ideas, or ready to take the next step? Reach out
+            today...
+          </p>
+        </div>
+
+        <div class="row g-4 align-items-start justify-content-between">
+          <!-- Contact Info -->
+          <div class="col-md-6">
+            <div class="mb-4 d-flex align-items-start">
+              <div
+                class="rounded-circle d-flex align-items-center justify-content-center"
+                style="width: 70px; height: 70px"
+              >
+                <i class="fas fa-home fs-3"></i>
+              </div>
+              <div class="ms-3 text-white">
+                <h4 class="text-info">Address</h4>
+                <p>
+                  123 Wuse Avenue,<br />
+                  Abuja, Nigeria<br />
+                  Mon-Sat: 9:00 AM - 5:00 PM
+                </p>
+              </div>
+            </div>
+
+            <div class="mb-4 d-flex align-items-start">
+              <div
+                class="rounded-circle d-flex align-items-center justify-content-center"
+                style="width: 70px; height: 70px"
+              >
+                <i class="fas fa-phone fs-3"></i>
+              </div>
+              <div class="ms-3 text-white">
+                <h4 class="text-info">Phone</h4>
+                <p>+2349131315886</p>
+              </div>
+            </div>
+
+            <div class="mb-4 d-flex align-items-start">
+              <div
+                class="rounded-circle d-flex align-items-center justify-content-center"
+                style="width: 70px; height: 70px"
+              >
+                <i class="fas fa-envelope fs-3"></i>
+              </div>
+              <div class="ms-3 text-white">
+                <h4 class="text-info">Email</h4>
+                <p>D.NaraiLeadership@gmail.com</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <div class="col-md-6 bg-color p-4 rounded shadow">
+            <div id="form-message-container" class="text-center">
+              {% include "partials/messages.html" %}
+            </div>
+
+            <h2 class="fw-bold text-white mb-3">Send Message</h2>
+
+            <form
+              id="contact-form"
+              class="text-black"
+              method="post"
+              action="{% url 'core:send_message' %}"
+            >
+              {% csrf_token %}
+              <div class="mb-3">
+                <input
+                  type="text"
+                  name="full_name"
+                  required
+                  class="form-control bg-white text-black w-100"
+                  placeholder="Full Name"
+                />
+              </div>
+
+              <div class="mb-3">
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  class="form-control bg-white text-black w-100"
+                  placeholder="Email"
+                />
+              </div>
+
+              <div class="mb-3">
+                <textarea
+                  required
+                  class="form-control bg-white text-black w-100"
+                  rows="4"
+                  name="message"
+                  placeholder="Type your message..."
+                ></textarea>
+              </div>
+
+              <div class="d-flex justify-content-left">
+                <button
+                  type="submit"
+                  class="btn custom-btn fw-bold text-white px-5"
+                >
+                  Send
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+</div>
+{% endblock content %}
