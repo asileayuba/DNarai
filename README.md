@@ -108,6 +108,7 @@ worker: celery -A DNarai worker -l info
 beat: celery -A DNarai beat -l info
 flower: celery -A DNarai flower --port=5555
 ```
+Note: `Procfile.dev` has been created already.
 
 Start all processes:
 
