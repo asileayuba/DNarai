@@ -32,8 +32,8 @@ All emails are handled asynchronously using Celery.
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/dnarai.git
-cd dnarai
+git clone https://github.com/asileayuba/DNarai.git
+cd DNarai
 ```
 
 2. Create a virtual environment & install dependencies:
