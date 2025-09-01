@@ -63,7 +63,14 @@
         </button>
 
         <div style="text-align: center;">
-          <p>Don't have an account? <a href="{% url 'accounts:signup' %}" style="color: white;">Signup</a></p>
+          <p>
+            Don't have an account? <a href="{% url 'accounts:signup' %}" style="color: white;">Signup</a>
+          </p>
+          <p>
+            <a href="{% url 'core:index' %}" style="color: white">
+            Back to Home
+          </a>
+          </p>
         </div>
 
         <div class="bottom_line">

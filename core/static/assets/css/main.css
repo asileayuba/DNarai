@@ -3642,9 +3642,10 @@ body.is-menu-visible #menu {
 }
 
 #header.alt h1 {
-  pointer-events: none;
-  opacity: 0;
+  opacity: 1;          
+  pointer-events: auto; 
 }
+
 
 /* Banner */
 
