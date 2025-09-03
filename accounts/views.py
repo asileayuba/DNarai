@@ -154,10 +154,11 @@ def verify_email(request, token):
 # Login View
 # -----------------------------
 def login_view(request):
-    if request.user.is_authenticated:
-        return redirect("core:index")
-    
     if request.method == "POST":
+        # Automatically log out current user if switching accounts
+        if request.user.is_authenticated:
+            logout(request)
+
         username_or_email = request.POST.get("email")
         password = request.POST.get("password")
 
@@ -181,7 +182,6 @@ def login_view(request):
         })
 
     return render(request, "accounts/login.html")
-
 
 # -----------------------------
 # Logout View
