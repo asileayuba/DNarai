@@ -159,20 +159,30 @@ docker-compose exec web python manage.py createsuperuser
 5. Check logs
 ```bash
 docker-compose logs -f
-
 ```
 
 6. Stop services
 ```bash
 docker-compose down
-
 ```
 
-Available services
-- Django app → http://localhost:8000
-- Flower (Celery monitoring) → http://localhost:5555
-- Postgres → localhost:5432
-- Redis → localhost:6379
+Available Services
+
+- **Django app** → [http://localhost:8000](http://localhost:8000)  
+- **Flower (Celery monitoring)** → [http://localhost:5555](http://localhost:5555)  
+- **Postgres** → `localhost:5432`  
+  - Connect with `psql`:  
+    ```bash
+    psql -h localhost -p 5432 -U dnarai_user -d dnarai_db
+    ```  
+  - Or use GUI tools like **pgAdmin**, **TablePlus**, **DBeaver**, etc.  
+- **Redis** → `localhost:6379`  
+  - Connect with `redis-cli`:  
+    ```bash
+    redis-cli -h localhost -p 6379
+    ```  
+  - Or use a GUI like **RedisInsight**.  
+
 
 ---
 
