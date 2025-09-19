@@ -30,7 +30,7 @@ class SessionFormat(models.Model):
 
 class LeadershipSessionBooking(models.Model):
     full_name = models.CharField(max_length=100)
-    email = models.EmailField()
+    email = models.EmailField(max_length=254)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
     company = models.CharField(max_length=100, blank=True, null=True)
     preferred_datetime = models.DateTimeField()
@@ -56,6 +56,7 @@ class LeadershipSessionBooking(models.Model):
 
     confirmed_at = models.DateTimeField(blank=True, null=True)
     completed_at = models.DateTimeField(blank=True, null=True)
+    last_reminder_sent_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return (

@@ -1,0 +1,5 @@
+<!-- Replace localhost with your actual domain name (e.g., dnarai.com). -->
+
+localhost {
+    reverse_proxy nginx:80
+}

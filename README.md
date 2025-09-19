@@ -30,40 +30,33 @@ All emails are handled asynchronously using Celery.
 ## ⚙️ Installation (Local Development without Docker)
 
 1. Clone the repository:
-```bash
-git clone https://github.com/asileayuba/DNarai.git
-cd DNarai
-```
+    ```bash
+    git clone https://github.com/asileayuba/DNarai.git
+    cd DNarai
+    ```
 
 2. Create a virtual environment & install dependencies:
-
-```bash
-python -m venv venv
-source venv/bin/activate  # Linux/macOS
-venv\Scripts\activate     # Windows
-pip install -r requirements.txt
-
-```
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # Linux/macOS
+    venv\Scripts\activate     # Windows
+    pip install -r requirements.txt
+    ```
 
 3. Setup your `.env` file (see `.env.sample`):
-```bash
-cp .env.sample .env
-
-```
+    ```bash
+    cp .env.sample .env
+    ```
 
 4. Run database migrations:
-
-```bash
-python manage.py migrate
-
-```
+    ```bash
+    python manage.py migrate
+    ```
 
 5. Collect static files:
-
-```bash
-python manage.py collectstatic --noinput
-
-```
+    ```bash
+    python manage.py collectstatic --noinput
+    ```
 
 ---
 
@@ -124,44 +117,32 @@ CELERY_RESULT_BACKEND=django-db
 # ==========================
 ENVIRONMENT=development
 TIME_ZONE=Africa/Lagos
-
 ```
 
 ---
 
-## 🐳 Running with Docker
+## 🐳 Running with Docker Compose Profiles
 
-This project comes with a Dockerfile and docker-compose.yml for running Django, Postgres, Redis, Celery, Celery Beat, and Flower.
+You can run the project in **development** or **production** mode:
 
-1. Build images
+### Development Mode
+
+This enables extra services (like Flower, dev ports, etc):
+
 ```bash
-docker-compose build
+docker-compose --profile dev up -d
 ```
 
-2. Start services
+### Production Mode
+
+This runs only the production services:
 
 ```bash
 docker-compose up -d
-
 ```
 
-3. Run database migrations
-```bash
-docker-compose exec web python manage.py migrate
+To stop all services:
 
-```
-
-4. Create superuser
-```bash
-docker-compose exec web python manage.py createsuperuser
-```
-
-5. Check logs
-```bash
-docker-compose logs -f
-```
-
-6. Stop services
 ```bash
 docker-compose down
 ```
@@ -169,7 +150,7 @@ docker-compose down
 Available Services
 
 - **Django app** → [http://localhost:8000](http://localhost:8000)  
-- **Flower (Celery monitoring)** → [http://localhost:5555](http://localhost:5555)  
+- **Flower (Celery monitoring, dev only)** → [http://localhost:5555](http://localhost:5555)  
 - **Postgres** → `localhost:5432`  
   - Connect with `psql`:  
     ```bash
@@ -183,7 +164,6 @@ Available Services
     ```  
   - Or use a GUI like **RedisInsight**.  
 
-
 ---
 
 ## 🛠️ Running with Makefile (Simpler Workflow)
@@ -192,39 +172,99 @@ Instead of long `docker-compose` commands, use the included Makefile.
 
 Common Commands
 
-| Command                | Description                         |
-| ---------------------- | ----------------------------------- |
-| `make up`              | Start all services in detached mode |
-| `make down`            | Stop all services                   |
-| `make build`           | Build Docker images                 |
-| `make migrate`         | Run Django migrations               |
-| `make createsuperuser` | Create Django superuser             |
-| `make collectstatic`   | Collect static files                |
-| `make celery`          | Run a Celery worker                 |
-| `make celery-beat`     | Run Celery Beat scheduler           |
-| `make flower`          | Start Flower monitoring             |
-| `make shell`           | Open Django shell                   |
-| `make logs`            | Tail all container logs             |
-| `make reset-db`        | Reset database by dropping volumes  |
-
+| Command                   | Description                                         |
+|---------------------------|-----------------------------------------------------|
+| `make up`                 | Start all services in detached (production) mode    |
+| `make up-dev`             | Start all services in development mode              |
+| `make down`               | Stop all services and force remove containers/net   |
+| `make down-prod`          | Stop only production services and containers        |
+| `make down-dev`           | Stop only development services and containers       |
+| `make build`              | Build Docker images                                 |
+| `make migrate-prod`       | Run Django migrations (production)                  |
+| `make migrate-dev`        | Run Django migrations (development)                 |
+| `make createsuperuser-prod` | Create Django superuser (production)              |
+| `make createsuperuser-dev`  | Create Django superuser (development)             |
+| `make collectstatic-prod` | Collect static files (production)                   |
+| `make collectstatic-dev`  | Collect static files (development)                  |
+| `make shell-prod`         | Open Django shell (production)                      |
+| `make shell-dev`          | Open Django shell (development)                     |
+| `make celery-prod`        | Run a Celery worker (production)                    |
+| `make celery-dev`         | Run a Celery worker (development)                   |
+| `make celery-beat-prod`   | Run Celery Beat scheduler (production)              |
+| `make celery-beat-dev`    | Run Celery Beat scheduler (development)             |
+| `make flower`             | Start Flower monitoring (development only)          |
+| `make logs`               | Tail all container logs                             |
+| `make logs-dev`           | Tail development logs                               |
+| `make logs-prod`          | Tail production logs                                |
+| `make reset-db`           | Reset database by dropping volumes                  |
 
 Example Workflow with Make
 ```bash
-# Start all containers
+# Start all containers (production)
 make up
 
-# Run migrations
-make migrate
+# Or start in development mode
+make up-dev
 
-# Create superuser
-make createsuperuser
+# Run migrations (production)
+make migrate-prod
 
-# View logs
+# Or run migrations (development)
+make migrate-dev
+
+# Create superuser (production)
+make createsuperuser-prod
+
+# Or create superuser (development)
+make createsuperuser-dev
+
+# Collect static files (production)
+make collectstatic-prod
+
+# Or collect static files (development)
+make collectstatic-dev
+
+# Open Django shell (production)
+make shell-prod
+
+# Or open Django shell (development)
+make shell-dev
+
+# Start Celery worker (production)
+make celery-prod
+
+# Or start Celery worker (development)
+make celery-dev
+
+# Start Celery Beat scheduler (production)
+make celery-beat-prod
+
+# Or start Celery Beat scheduler (development)
+make celery-beat-dev
+
+# Start Flower monitoring (development only)
+make flower
+
+# View logs (all)
 make logs
 
-# Stop everything
+# View logs (development only)
+make logs-dev
+
+# View logs (production only)
+make logs-prod
+
+# Stop everything (any environment)
 make down
 
+# Stop only production services
+make down-prod
+
+# Stop only development services
+make down-dev
+
+# Reset database (drop all volumes)
+make reset-db
 ```
 
 ---
@@ -239,13 +279,11 @@ web: python manage.py runserver 0.0.0.0:8000
 worker: celery -A DNarai worker -l info
 beat: celery -A DNarai beat -l info
 flower: celery -A DNarai flower --port=5555
-
 ```
 
 Start all processes:
 ```bash
 honcho start -f Procfile.dev
-
 ```
 
 ---
@@ -265,12 +303,13 @@ DNarai/
 │── Dockerfile
 │── docker-compose.yml
 │── Makefile
+│── Caddyfile
+│── nginx.conf
 │── .env.sample
 │── README.md
-
 ```
 
 ---
 
 ## 📜 License
-MIT License. 
+MIT License.

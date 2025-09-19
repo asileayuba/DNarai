@@ -1,70 +1,142 @@
+# --------------------------------------------------
+# Makefile for managing DNarai (Django + Docker)
+# --------------------------------------------------
+
 # Docker Compose command
 DC=docker-compose
-PYTHON=web
+
+# Service names
+PYTHON_PROD=web
+PYTHON_DEV=web-dev
 CELERY=celery
 CELERY_BEAT=celery-beat
 FLOWER=flower
 
 # ---------------------------------------
-# Start all services (dev mode)
+# Start services
 # ---------------------------------------
 up:
-	@echo "Starting all services..."
-	$(DC) up -d
+	@echo "Starting all services (production)..."
+	$(DC) --profile prod up -d
 
-# Stop all services
+up-dev:
+	@echo "Starting all services (development)..."
+	$(DC) --profile dev up -d
+
+# ---------------------------------------
+# Stop services
+# ---------------------------------------
 down:
-	@echo "Stopping all services..."
-	$(DC) down
+	@echo "Stopping all services (any environment)..."
+	$(DC) down || true
+	@echo "Force removing leftover containers and network..."
+	docker stop $$(docker ps -aq --filter "name=dnarai") 2>/dev/null || true
+	docker rm $$(docker ps -aq --filter "name=dnarai") 2>/dev/null || true
+	docker network rm dnarai_default 2>/dev/null || true
 
-# Rebuild containers
+down-prod:
+	@echo "Stopping production services..."
+	$(DC) --profile prod down || true
+	docker stop $$(docker ps -aq --filter "name=dnarai-.*prod") 2>/dev/null || true
+	docker rm $$(docker ps -aq --filter "name=dnarai-.*prod") 2>/dev/null || true
+
+down-dev:
+	@echo "Stopping development services..."
+	$(DC) --profile dev down || true
+	docker stop $$(docker ps -aq --filter "name=dnarai-.*dev") 2>/dev/null || true
+	docker rm $$(docker ps -aq --filter "name=dnarai-.*dev") 2>/dev/null || true
+
+# ---------------------------------------
+# Build & maintenance
+# ---------------------------------------
 build:
 	@echo "Building Docker images..."
 	$(DC) build
 
-# Apply database migrations
-migrate:
-	@echo "Applying migrations..."
-	$(DC) exec $(PYTHON) python manage.py migrate
+# Apply migrations
+migrate-prod:
+	@echo "Applying migrations (production)..."
+	$(DC) exec $(PYTHON_PROD) python manage.py migrate
+
+migrate-dev:
+	@echo "Applying migrations (development)..."
+	$(DC) exec $(PYTHON_DEV) python manage.py migrate
 
 # Create superuser
-createsuperuser:
-	@echo "Creating superuser..."
-	$(DC) exec $(PYTHON) python manage.py createsuperuser
+createsuperuser-prod:
+	@echo "Creating superuser (production)..."
+	$(DC) exec $(PYTHON_PROD) python manage.py createsuperuser
+
+createsuperuser-dev:
+	@echo "Creating superuser (development)..."
+	$(DC) exec $(PYTHON_DEV) python manage.py createsuperuser
 
 # Collect static files
-collectstatic:
-	@echo "Collecting static files..."
-	$(DC) exec $(PYTHON) python manage.py collectstatic --noinput
+collectstatic-prod:
+	@echo "Collecting static files (production)..."
+	$(DC) exec $(PYTHON_PROD) python manage.py collectstatic --noinput
 
-# Run Celery worker
-celery:
-	@echo "Starting Celery worker..."
-	$(DC) exec $(PYTHON) celery -A DNarai worker -l info
+collectstatic-dev:
+	@echo "Collecting static files (development)..."
+	$(DC) exec $(PYTHON_DEV) python manage.py collectstatic --noinput
 
-# Run Celery beat
-celery-beat:
-	@echo "Starting Celery beat..."
-	$(DC) exec $(PYTHON) celery -A DNarai beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+# Open Django shell
+shell-prod:
+	@echo "Opening Django shell (production)..."
+	$(DC) exec $(PYTHON_PROD) python manage.py shell
 
-# Start Flower
+shell-dev:
+	@echo "Opening Django shell (development)..."
+	$(DC) exec $(PYTHON_DEV) python manage.py shell
+
+# ---------------------------------------
+# Celery workers (both prod & dev)
+# ---------------------------------------
+celery-prod:
+	@echo "Starting Celery worker (production)..."
+	$(DC) --profile prod up -d $(CELERY)
+
+celery-dev:
+	@echo "Starting Celery worker (development)..."
+	$(DC) --profile dev up -d $(CELERY)
+
+celery-beat-prod:
+	@echo "Starting Celery Beat scheduler (production)..."
+	$(DC) --profile prod up -d $(CELERY_BEAT)
+
+celery-beat-dev:
+	@echo "Starting Celery Beat scheduler (development)..."
+	$(DC) --profile dev up -d $(CELERY_BEAT)
+
+# ---------------------------------------
+# Monitoring (dev only)
+# ---------------------------------------
 flower:
 	@echo "Starting Flower monitoring..."
-	$(DC) exec $(PYTHON) celery -A DNarai flower --port=5555 --broker=redis://redis:6379/0
+	$(DC) --profile dev up -d $(FLOWER)
 
-# Run Django shell
-shell:
-	@echo "Opening Django shell..."
-	$(DC) exec $(PYTHON) python manage.py shell
-
-# View logs of all services
+# ---------------------------------------
+# Logs & DB
+# ---------------------------------------
 logs:
-	@echo "Showing logs..."
+	@echo "Tailing all container logs..."
 	$(DC) logs -f
 
-# Reset the database (drops volumes)
+logs-dev:
+	@echo "Tailing development logs..."
+	$(DC) --profile dev logs -f
+
+logs-prod:
+	@echo "Tailing production logs..."
+	$(DC) --profile prod logs -f
+
 reset-db:
-	@echo "Resetting database..."
-	$(DC) down -v
-	$(DC) up -d db
-	$(MAKE) migrate
+	@echo "Resetting database (dropping volumes)..."
+	$(DC) down -v || true
+	docker volume rm dnarai_postgres_data 2>/dev/null || true
+
+.PHONY: up up-dev down down-dev down-prod build \
+	migrate-prod migrate-dev createsuperuser-prod createsuperuser-dev \
+	collectstatic-prod collectstatic-dev shell-prod shell-dev \
+	celery-prod celery-dev celery-beat-prod celery-beat-dev flower \
+	logs logs-dev logs-prod reset-db
