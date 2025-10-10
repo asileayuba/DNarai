@@ -81,9 +81,9 @@ ALLOWED_HOSTS=127.0.0.1,localhost,web
 # ==========================
 # Postgres (for docker-compose)
 # ==========================
-POSTGRES_DB=dnarai_db
-POSTGRES_USER=dnarai_user
-POSTGRES_PASSWORD=dnarai_pass
+POSTGRES_DB=your_db_name
+POSTGRES_USER=your_db_user
+POSTGRES_PASSWORD=your_db_password
 POSTGRES_HOST=db
 POSTGRES_PORT=5432
 
@@ -113,6 +113,11 @@ REMINDER_EMAIL_RECIPIENT=your-email@example.com
 BASE_URL=http://127.0.0.1:8000
 
 # ==========================
+# Mailpit (for development)
+# ==========================
+http://127.0.0.1:8025
+
+# ==========================
 # Celery / Redis
 # ==========================
 CELERY_BROKER_URL=redis://redis:6379/0
@@ -123,7 +128,6 @@ CELERY_RESULT_BACKEND=django-db
 # ==========================
 ENVIRONMENT=development
 TIME_ZONE=Africa/Lagos
-
 ```
 
 ---
