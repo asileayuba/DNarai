@@ -70,6 +70,8 @@ Example `.env.sample`:
 # ==========================
 # Django Settings
 # ==========================
+DJANGO_HOST=localhost
+DJANGO_ENV=development
 DEBUG=True
 SECRET_KEY=your-secret-key-here
 
@@ -79,9 +81,9 @@ ALLOWED_HOSTS=127.0.0.1,localhost,web
 # ==========================
 # Postgres (for docker-compose)
 # ==========================
-POSTGRES_DB=your_db_name
-POSTGRES_USER=your_db_user
-POSTGRES_PASSWORD=your_db_password
+POSTGRES_DB=dnarai_db
+POSTGRES_USER=dnarai_user
+POSTGRES_PASSWORD=dnarai_pass
 POSTGRES_HOST=db
 POSTGRES_PORT=5432
 
@@ -94,12 +96,16 @@ DEFAULT_MENTOR_EMAIL=mentor@example.com
 # Email Settings (SMTP)
 # ==========================
 EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USE_TLS=True
+EMAIL_HOST=mailpit # Change to your SMTP server address for production
+EMAIL_PORT=1025
+EMAIL_USE_SSL=False # Set to True if your SMTP server requires SSL
+EMAIL_USE_TLS=False # Set to True if your SMTP server requires TLS
 EMAIL_HOST_USER=your-email@example.com
 EMAIL_HOST_PASSWORD=your-email-password
 DEFAULT_FROM_EMAIL=your-email@example.com
+REMINDER_EMAIL_SUBJECT=Session Reminder: Please Confirm Your Attendance
+REMINDER_EMAIL_HTML=<h1>Hi there!</h1><p>This is a friendly reminder to confirm your session attendance. Please click the link below to complete the process.</p>
+REMINDER_EMAIL_RECIPIENT=your-email@example.com
 
 # ==========================
 # Base URL (used in links inside emails)
@@ -117,6 +123,7 @@ CELERY_RESULT_BACKEND=django-db
 # ==========================
 ENVIRONMENT=development
 TIME_ZONE=Africa/Lagos
+
 ```
 
 ---
@@ -130,7 +137,7 @@ You can run the project in **development** or **production** mode:
 This enables extra services (like Flower, dev ports, etc):
 
 ```bash
-docker-compose --profile dev up -d
+docker-compose --profile dev build up -d
 ```
 
 ### Production Mode
@@ -179,7 +186,8 @@ Common Commands
 | `make down`               | Stop all services and force remove containers/net   |
 | `make down-prod`          | Stop only production services and containers        |
 | `make down-dev`           | Stop only development services and containers       |
-| `make build`              | Build Docker images                                 |
+| `make build-dev`          | Build Docker images for dev                         |
+| `make build-prod`         | Build Docker images for prod                        |
 | `make migrate-prod`       | Run Django migrations (production)                  |
 | `make migrate-dev`        | Run Django migrations (development)                 |
 | `make createsuperuser-prod` | Create Django superuser (production)              |

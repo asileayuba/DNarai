@@ -3,7 +3,7 @@
 # --------------------------------------------------
 
 # Docker Compose command
-DC=docker-compose
+DC=docker-compose 
 
 # Service names
 PYTHON_PROD=web
@@ -49,9 +49,13 @@ down-dev:
 # ---------------------------------------
 # Build & maintenance
 # ---------------------------------------
-build:
+build-dev:
 	@echo "Building Docker images..."
-	$(DC) build
+	$(DC) --profile dev build
+
+build-prod:
+	@echo "Building Docker images..."
+	$(DC) --profile prod build
 
 # Apply migrations
 migrate-prod:
