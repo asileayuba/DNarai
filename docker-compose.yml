@@ -1,6 +1,17 @@
 services:
+  # Mailpit (dev only)
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "8025:8025"  # Web UI
+      - "1025:1025"  # SMTP
+    restart: unless-stopped
+    volumes:
+      - mailpit_data:/data
+    profiles: ["dev"]
+
   # Django app (prod)
-  web:
+  web-prod:
     build: .
     command: >
       sh -c "
@@ -47,6 +58,8 @@ services:
       db:
         condition: service_healthy
       redis:
+        condition: service_healthy
+      celery:
         condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8000/ || exit 1"]
@@ -194,3 +207,4 @@ volumes:
   nginx_cache:
   caddy_data:
   caddy_config:
+  mailpit_data:

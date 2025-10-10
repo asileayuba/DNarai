@@ -152,7 +152,6 @@ def mark_session_not_held(request, token):
     return HttpResponse("Thanks! You've indicated that the session did not take place.")
 
 
-@login_required(login_url="accounts:login")
 def send_message(request):
     """Contact form for general messages"""
     if request.method == "POST":
