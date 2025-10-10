@@ -162,6 +162,7 @@ Available Services
 
 - **Django app** → [http://localhost:8000](http://localhost:8000)  
 - **Flower (Celery monitoring, dev only)** → [http://localhost:5555](http://localhost:5555)  
+- **Mailpit (mailing service, dev only)** → [http://localhost:8025](http://localhost:8025)  
 - **Postgres** → `localhost:5432`  
   - Connect with `psql`:  
     ```bash
